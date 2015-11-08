@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.google.gson.Gson;
+
 
 
 import edu.usmp.fia.taller.common.action.ActionServlet;
@@ -68,7 +70,9 @@ public class Gestionar_Docente extends ActionServlet {
 			response.setCharacterEncoding("utf-8");
 			PrintWriter out = response.getWriter(); */
 			
-			
+
+			String tipoRegistro=request.getParameter("tipoRegistro");
+			int idPersona=Integer.parseInt(request.getParameter("codigo"));
 			String url_foto=request.getParameter("urlfoto");
 			System.out.print("\n"+1+"\n");
 			String nombre=request.getParameter("nombres");
@@ -102,16 +106,21 @@ public class Gestionar_Docente extends ActionServlet {
 			char estado='1';
 
 			persona=new Personaa();
+			persona.setIdPersona(idPersona);
 			persona.setNombre1(nombre);
 			persona.setApePaterno(apellido_paterno);
 			persona.setApeMaterno(apellido_materno);
 			persona.setSexo(sexo);
 			DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.MYSQL);
 			DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
-			
-			
-			int idPersona = regdoce.regDocente().guardarPersona(persona);
-			
+			int idPersonaRes=-1;
+			if(tipoRegistro==null){
+				idPersonaRes = regdoce.regDocente().guardarPersona(persona);
+			}else{
+				idPersonaRes = regdoce.regDocente().modificarPersona(persona);
+			}
+
+			System.out.print("\n"+idPersonaRes+"\n");
 			docente=new Docente();
 			docente.setId_docente(idPersona);
 			docente.setUrl_foto(url_foto);
@@ -136,7 +145,12 @@ public class Gestionar_Docente extends ActionServlet {
 			docente.setFecha_ingreso(fecha_ingreso);*/
 
 	//		DAOFactoryRegDocente regdoce = dao.getRegistroDocente();
-			boolean resultadoExito = regdoce.regDocente().guardarDocente(docente);
+			boolean resultadoExito=false;
+			if(tipoRegistro==null){
+				resultadoExito = regdoce.regDocente().guardarDocente(docente);
+			}else{
+				resultadoExito = regdoce.regDocente().modificarDocente(docente);
+			}
 			
 			response.setContentType("application/json");
 			response.setCharacterEncoding("utf-8");
@@ -345,14 +359,24 @@ public class Gestionar_Docente extends ActionServlet {
 			Vector<Telefono> telefonos=regdoce.regDocente().buscarTelefono(codigo);
 			Vector<Documento> documentos=regdoce.regDocente().buscarDocumento(codigo);
 			Vector<GradoAcademico> gradoAcademicos=regdoce.regDocente().buscarGradoAcademico(codigo);
+			List<Ubigeo> departamentos = dao.getRegistroDocente().regDocente().getDepartamentos();
+			List<Ubigeo> provincias1 = dao.getRegistroDocente().regDocente().getProvincias(""+docente.getId_Departamento_nacionalidad());
+			List<Ubigeo> provincias2 = dao.getRegistroDocente().regDocente().getProvincias(""+docente.getId_Departamento_direccion());
+			List<Ubigeo> distritos1 = dao.getRegistroDocente().regDocente().getDistritos(""+docente.getId_Departamento_nacionalidad(),""+docente.getId_Provincia_nacionalidad());
+			List<Ubigeo> distritos2 = dao.getRegistroDocente().regDocente().getDistritos(""+docente.getId_Departamento_direccion(),""+docente.getId_Provincia_direccion());
 			
-			
+			//docente.getId_Departamento_nacionalidad()
 			request.setAttribute("persona", persona);
 			request.setAttribute("docente", docente);
 			request.setAttribute("emails", emails);
 			request.setAttribute("telefonos", telefonos);
 			request.setAttribute("documentos", documentos);
 			request.setAttribute("gradoAcademicos", gradoAcademicos);
+			request.setAttribute("departamentos", departamentos);
+			request.setAttribute("provincias1", provincias1);
+			request.setAttribute("provincias2", provincias2);
+			request.setAttribute("distritos1", distritos1);
+			request.setAttribute("distritos2", distritos2);
 			
 			request.getRequestDispatcher("/RegistroDocente/modificarDocente.jsp").forward(request, response);
 			

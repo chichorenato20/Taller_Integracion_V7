@@ -8,6 +8,7 @@ import edu.usmp.fia.taller.common.bean.RegistroDocente.*;
 public interface DAORegistroDocente {
 	public List<Docente> getDocentes() throws Exception;
 	public boolean guardarDocente(Docente docente) throws Exception;
+	public boolean modificarDocente(Docente docente) throws Exception;
 	public List<Ubigeo> getDepartamentos() throws Exception;
 	public List<Ubigeo> getProvincias(String coddpto) throws Exception;
 	public List<Ubigeo> getDistritos(String coddpto,String codprov) throws Exception;
@@ -42,6 +43,7 @@ public interface DAORegistroDocente {
 	
 //----------------------------INICIO metodo de persona
 	public int guardarPersona(Personaa persona) throws Exception;
+	public int modificarPersona(Personaa persona) throws Exception;
 //----------------------------FIN metodo de persona
 	
 	

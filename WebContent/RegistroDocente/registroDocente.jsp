@@ -136,7 +136,7 @@
 									<div class="col-sm-9">
 										<select id="combo_departamentos_1"
 											class="form-control input-sm" name="departamento1" required>
-											<option>Seleccionar</option>
+											<option selected="true" disabled="disabled">Seleccionar</option>
 										</select>
 									</div>
 								</div>
@@ -146,7 +146,7 @@
 									<div class="col-sm-9">
 										<select id="combo_provincias_1" class="form-control input-sm"
 											disabled="true" name="provincia1" required>
-											<option>Seleccionar</option>
+											<option selected="true" disabled="disabled">Seleccionar</option>
 										</select>
 									</div>
 								</div>
@@ -156,7 +156,7 @@
 									<div class="col-sm-9">
 										<select id="combo_distritos_1" class="form-control input-sm"
 											disabled="true" name="distrito1">
-											<option>Seleccionar</option>
+											<option selected="true" disabled="disabled">Seleccionar</option>
 										</select>
 									</div>
 								</div>
@@ -173,7 +173,7 @@
 									<div class="col-sm-9">
 										<select id="combo_departamentos_2"
 											class="form-control input-sm" name="departamento2">
-											<option>Seleccionar</option>
+											<option selected="true" disabled="disabled">Seleccionar</option>
 										</select>
 									</div>
 								</div>
@@ -183,7 +183,7 @@
 									<div class="col-sm-9">
 										<select id="combo_provincias_2" class="form-control input-sm"
 											disabled="true" name="provincia2">
-											<option>Seleccionar</option>
+											<option selected="true" disabled="disabled">Seleccionar</option>
 										</select>
 									</div>
 								</div>
@@ -193,7 +193,7 @@
 									<div class="col-sm-9">
 										<select id="combo_distritos_2" class="form-control input-sm"
 											disabled="true" name="distrito2">
-											<option>Seleccionar</option>
+											<option selected="true" disabled="disabled">Seleccionar</option>
 										</select>
 									</div>
 								</div>

@@ -15,6 +15,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 
+
 import edu.usmp.fia.taller.common.bean.RegistroDocente.*;
 import edu.usmp.fia.taller.common.dao.MySqlDAOFactory;
 import edu.usmp.fia.taller.registrodocente.dataaccess.interfaces.DAORegistroDocente;;
@@ -117,6 +118,47 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 		
 		return false;
 	}
+	
+	@Override
+	public boolean modificarDocente(Docente docente) throws Exception {
+
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+			//INSERT INTO  VALUES (NULL, 'adsadasd', 'asdasd', 'asdasd', 'asdasd', '1');
+			
+			
+			//(id_profesor ,id_Pais_nacionalidad ,id_Departamento_nacionalidad ,id_Provincia_nacionalidad ,id_Distrito_nacionalidad ,id_Departamento_direccion ,id_Provincia_direccion ,id_Distrito_direccion ,url_foto ,estado ,estado_civil ,fecha_nacimiento ,referencia_direccion)
+			String consulta = "UPDATE  t_profesor SET "
+					+"id_Pais_nacionalidad='"+docente.getId_Pais_nacionalidad()+"'"
+					+",id_Departamento_nacionalidad='"+docente.getId_Departamento_nacionalidad()+"'"
+					+",id_Provincia_nacionalidad='"+docente.getId_Provincia_nacionalidad()+"'"
+					+",id_Distrito_nacionalidad='"+docente.getId_Distrito_nacionalidad()+"'"
+					+",id_Departamento_direccion='"+docente.getId_Departamento_direccion()+"'"
+					+",id_Provincia_direccion='"+docente.getId_Provincia_direccion()+"'"
+					+",id_Distrito_direccion='"+docente.getId_Distrito_direccion()+"'"
+					+",url_foto='"+docente.getUrl_foto()+"'"
+					+",estado='"+docente.getEstado()+"'"
+					+",estado_civil='"+docente.getEstado_civil()+"'"
+					+",fecha_nacimiento='"+docente.getFecha_nacimiento()+"'"
+					+",referencia_direccion='"+docente.getReferencia_direccion()+"'"
+					+" where id ='"+docente.getId_docente()+"'";
+			System.out.print("\n"+consulta+"\n");
+			
+			int filas=stmt.executeUpdate(consulta,Statement.RETURN_GENERATED_KEYS);
+			
+			return true;
+			
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return false;
+	}
+	
 	
 	@Override
 	public boolean guardarCursosAptos(String json_cusosAptos, String id_profesor) throws Exception {
@@ -417,6 +459,28 @@ public class MysqlRegistroDocente extends MySqlDAOFactory implements DAORegistro
 			//stmt.executeUpdate(sqlPersona,Statement.RETURN_GENERATED_KEYS);
 			stmt.executeUpdate(sqlPersona);
 			return id_persona;
+		} catch (Exception e) {
+			
+			System.out.print(e.getMessage());
+		}
+		
+		
+		return -1;
+	}
+	
+	@Override
+	public int modificarPersona(Personaa persona) throws Exception {
+		
+		try {
+			Connection conexion = (Connection) MySqlDAOFactory.obtenerConexion();
+			Statement stmt = conexion.createStatement();
+		//	int id_persona=generarIdProfesor();
+
+			String sqlPersona = "UPDATE  t_persona SET nombre='"+persona.getNombre1()+"' , apellido_paterno='"+persona.getApePaterno()+"' , apellido_materno='"+persona.getApeMaterno()+"' , sexo='"+persona.getSexo()+"' where id ='"+persona.getIdPersona()+"'";
+		
+			//stmt.executeUpdate(sqlPersona,Statement.RETURN_GENERATED_KEYS);
+			stmt.executeUpdate(sqlPersona);
+			return persona.getIdPersona();
 		} catch (Exception e) {
 			
 			System.out.print(e.getMessage());
